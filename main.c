@@ -8,6 +8,7 @@ typedef struct node {
     char name[50];
     char phone[20];
     char email[40];
+    bool isHead;
     struct node * next; // creating a pointer called next
 } contact;
 
@@ -43,8 +44,10 @@ int main(void){
         if(prevPtr!= NULL){
             prevPtr->next = currptr;
         }
-        if(headPtr == NULL){
+        if(headPtr == NULL){ // First Contact
             headPtr = currptr;
+        } else {
+            currptr->isHead = false;
         }
     
         prevPtr = currptr;
