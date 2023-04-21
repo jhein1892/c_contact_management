@@ -13,25 +13,58 @@ typedef struct node {
 
 int main(void){
     bool addContact = true; 
-    contact* currptr; // Start with a first pointer.
+    contact* prevPtr = NULL; // Start with a first pointer.
+    contact* headPtr = NULL; // The Start of our list
 
     while(addContact == true){
-        currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact
+        char inputName[50];
+        char inputPhone[20];
+        char inputEmail[40];
+
+        contact* currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact and create new struct to use
         if (currptr == NULL){
             printf("Cannot allocate memory!");
             exit(0);
         }
-        strcpy(currptr->name, "Jake Hein");
-        strcpy(currptr->email, "email@email.com");
-        strcpy(currptr->phone, "100-xxx-xxxx");
+        printf("Please Enter a Name: ");
+        fgets(inputName, sizeof(inputName), stdin);
+        strcpy(currptr->name, inputName);
+
+        printf("Please Enter a Phone: ");
+        fgets(inputPhone, sizeof(inputPhone), stdin);
+        strcpy(currptr->phone, inputPhone);
+
+        printf("Please Enter a Email: ");
+        fgets(inputEmail, sizeof(inputEmail), stdin);
+        strcpy(currptr->email, inputEmail);
+
         currptr->next = NULL;
 
+        if(prevPtr!= NULL){
+            prevPtr->next = currptr;
+        }
+        if(headPtr == NULL){
+            headPtr = currptr;
+        }
+    
+        prevPtr = currptr;
+        printf("Name: %s\nEmail: %s\nPhone: %s\nPtr: %p\n", currptr->name, currptr->email, currptr->phone, currptr);
 
-        printf("Name: %s\nEmail: %s\nPhone: %s\n", currptr->name, currptr->email, currptr->phone);
-        addContact = false;
+        printf("\nWould you lke to add another contact?(y/n): ");
+        char addAnother[4];
+        fgets(addAnother, sizeof(addAnother), stdin);
+        addAnother[strcspn(addAnother, "\n")] = '\0';
+        if (strcmp(addAnother, "n") == 0){
+            addContact = false;
+        }
     } 
+    contact* indexPtr = headPtr;
+    while(indexPtr != NULL){
+        printf("%s\n", indexPtr->name);
+        indexPtr = indexPtr->next;
+    }
 
-
-    printf("Thank you for adding contacts!");
+    // printf("PrevPointer: %p\n", prevPtr);
+    printf("Thank you for adding contacts!\n");
     return 0; 
 }
