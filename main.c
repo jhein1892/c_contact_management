@@ -12,12 +12,39 @@ typedef struct node {
     struct node * next; // creating a pointer called next
 } contact;
 
+void add(contact *prevPtr, contact *headPtr);
+
 int main(void){
-    bool addContact = true; 
     contact* prevPtr = NULL; // Start with a first pointer.
     contact* headPtr = NULL; // The Start of our list
+    
+    char userDirection[3];
+    printf("Press 'a' to add new Contact: ");
+    fgets(userDirection, sizeof(userDirection), stdin);
+    userDirection[strcspn(userDirection, "\n")] = '\0';
+    if(strcmp(userDirection, "a") == 0){
+        printf("HERE");
+        add(prevPtr, headPtr);
+    }
 
-    while(addContact == true){
+    printf("%p", headPtr);
+
+
+    contact* indexPtr = headPtr;
+    while(indexPtr != NULL){
+        printf("%s\n", indexPtr->name);
+        indexPtr = indexPtr->next;
+    }
+    // printf("PrevPointer: %p\n", prevPtr);
+    printf("Thank you for adding contacts!\n");
+    return 0; 
+}
+
+
+void add(contact *prevPtr, contact *headPtr){
+    bool addContact = true; 
+
+        while(addContact == true){
         char inputName[50];
         char inputPhone[20];
         char inputEmail[40];
@@ -61,13 +88,6 @@ int main(void){
             addContact = false;
         }
     } 
-    contact* indexPtr = headPtr;
-    while(indexPtr != NULL){
-        printf("%s\n", indexPtr->name);
-        indexPtr = indexPtr->next;
-    }
 
-    // printf("PrevPointer: %p\n", prevPtr);
-    printf("Thank you for adding contacts!\n");
-    return 0; 
+    return;
 }
