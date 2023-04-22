@@ -12,7 +12,7 @@ typedef struct node {
     struct node * next; // creating a pointer called next
 } contact;
 
-void add(contact *prevPtr, contact *headPtr);
+void add(contact *prevPtr, contact **headPtr);
 
 int main(void){
     contact* prevPtr = NULL; // Start with a first pointer.
@@ -23,25 +23,23 @@ int main(void){
     fgets(userDirection, sizeof(userDirection), stdin);
     userDirection[strcspn(userDirection, "\n")] = '\0';
     if(strcmp(userDirection, "a") == 0){
-        printf("HERE");
-        add(prevPtr, headPtr);
+        add(prevPtr, &headPtr);
     }
 
-    printf("%p", headPtr);
-
+    printf("%p\n", headPtr);
 
     contact* indexPtr = headPtr;
     while(indexPtr != NULL){
         printf("%s\n", indexPtr->name);
         indexPtr = indexPtr->next;
     }
-    // printf("PrevPointer: %p\n", prevPtr);
+
     printf("Thank you for adding contacts!\n");
     return 0; 
 }
 
 
-void add(contact *prevPtr, contact *headPtr){
+void add(contact *prevPtr, contact **headPtr){
     bool addContact = true; 
 
         while(addContact == true){
@@ -67,12 +65,13 @@ void add(contact *prevPtr, contact *headPtr){
         strcpy(currptr->email, inputEmail);
 
         currptr->next = NULL;
-
-        if(prevPtr!= NULL){
+        printf("PREV PRT: %p\n", prevPtr);
+        printf("HEAD PRT: %p\n", headPtr);
+        if(prevPtr != NULL){
             prevPtr->next = currptr;
         }
         if(headPtr == NULL){ // First Contact
-            headPtr = currptr;
+            *headPtr = currptr;
         } else {
             currptr->isHead = false;
         }
