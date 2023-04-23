@@ -23,9 +23,11 @@ int main(void){
     fgets(userDirection, sizeof(userDirection), stdin);
     userDirection[strcspn(userDirection, "\n")] = '\0';
     if(strcmp(userDirection, "a") == 0){
-        add(prevPtr, &headPtr);
+        add(prevPtr, &headPtr);    
     }
 
+
+    // printf("Prev: %p, Head: %p\n", prevPtr, headPtr);
     printf("%p\n", headPtr);
 
     contact* indexPtr = headPtr;
@@ -40,6 +42,10 @@ int main(void){
 
 
 void add(contact *prevPtr, contact **headPtr){
+    // printf("prev: %p, head %p\n", *revPtr, *headPtr);
+    contact* currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact and create new struct to use
+
+    // printf("prev: %p, head %p\n", *prevPtr, *headPtr);
     bool addContact = true; 
 
         while(addContact == true){
@@ -47,11 +53,11 @@ void add(contact *prevPtr, contact **headPtr){
         char inputPhone[20];
         char inputEmail[40];
 
-        contact* currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact and create new struct to use
         if (currptr == NULL){
             printf("Cannot allocate memory!");
             exit(0);
         }
+
         printf("Please Enter a Name: ");
         fgets(inputName, sizeof(inputName), stdin);
         strcpy(currptr->name, inputName);
@@ -70,7 +76,7 @@ void add(contact *prevPtr, contact **headPtr){
         if(prevPtr != NULL){
             prevPtr->next = currptr;
         }
-        if(headPtr == NULL){ // First Contact
+        if(*headPtr == NULL){ // First Contact
             *headPtr = currptr;
         } else {
             currptr->isHead = false;
