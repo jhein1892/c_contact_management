@@ -26,10 +26,6 @@ int main(void){
         add(prevPtr, &headPtr);    
     }
 
-
-    // printf("Prev: %p, Head: %p\n", prevPtr, headPtr);
-    printf("%p\n", headPtr);
-
     contact* indexPtr = headPtr;
     while(indexPtr != NULL){
         printf("%s\n", indexPtr->name);
@@ -42,37 +38,27 @@ int main(void){
 
 
 void add(contact *prevPtr, contact **headPtr){
-    // printf("prev: %p, head %p\n", *revPtr, *headPtr);
-    contact* currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact and create new struct to use
 
-    // printf("prev: %p, head %p\n", *prevPtr, *headPtr);
     bool addContact = true; 
 
-        while(addContact == true){
-        char inputName[50];
-        char inputPhone[20];
-        char inputEmail[40];
-
+    while(addContact == true){
+        contact* currptr = (contact*) malloc((sizeof(contact))); // Allocate memory for a new contact and create new struct to use
         if (currptr == NULL){
             printf("Cannot allocate memory!");
             exit(0);
         }
 
         printf("Please Enter a Name: ");
-        fgets(inputName, sizeof(inputName), stdin);
-        strcpy(currptr->name, inputName);
+        fgets(currptr->name, sizeof(currptr->name), stdin);
 
         printf("Please Enter a Phone: ");
-        fgets(inputPhone, sizeof(inputPhone), stdin);
-        strcpy(currptr->phone, inputPhone);
+        fgets(currptr->phone, sizeof(currptr->phone), stdin);
 
         printf("Please Enter a Email: ");
-        fgets(inputEmail, sizeof(inputEmail), stdin);
-        strcpy(currptr->email, inputEmail);
+        fgets(currptr->email, sizeof(currptr->email), stdin);
 
         currptr->next = NULL;
-        printf("PREV PRT: %p\n", prevPtr);
-        printf("HEAD PRT: %p\n", headPtr);
+
         if(prevPtr != NULL){
             prevPtr->next = currptr;
         }
@@ -83,8 +69,7 @@ void add(contact *prevPtr, contact **headPtr){
         }
     
         prevPtr = currptr;
-        printf("Name: %s\nEmail: %s\nPhone: %s\nPtr: %p\n", currptr->name, currptr->email, currptr->phone, currptr);
-
+        
         printf("\nWould you lke to add another contact?(y/n): ");
         char addAnother[4];
         fgets(addAnother, sizeof(addAnother), stdin);
