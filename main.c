@@ -13,17 +13,21 @@ typedef struct node {
 } contact;
 
 void add(contact *prevPtr, contact **headPtr);
+int removeContact(contact **headPtr);
 
 int main(void){
     contact* prevPtr = NULL; // Start with a first pointer.
     contact* headPtr = NULL; // The Start of our list
     
     char userDirection[3];
-    printf("Press 'a' to add new Contact: ");
+    printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\n");
     fgets(userDirection, sizeof(userDirection), stdin);
     userDirection[strcspn(userDirection, "\n")] = '\0';
     if(strcmp(userDirection, "a") == 0){
         add(prevPtr, &headPtr);    
+    } 
+    if(strcmp(userDirection, "r") == 0){
+        removeContact(&headPtr);
     }
 
     contact* indexPtr = headPtr;
@@ -80,4 +84,22 @@ void add(contact *prevPtr, contact **headPtr){
     } 
 
     return;
+}
+
+int removeContact(contact **headPtr){
+    if (*headPtr == NULL){
+        printf("Cannot remove Contact\n");
+        return 1;
+    } else {
+        printf("Removing Contact\n");
+        return 0;
+    }
+    
+    // When user clicks on remove we should start circling through the contacts
+    // If user hits down arrow, then we should go to next, up arrow goes back
+    // If user hits next and we have next == NULL, then we go back to head.
+    // If user hits 'q' then we quit and go back to main
+    // if user types 'rm' then we delete that contact
+        // We need to store the prevPtr so that when we delete, we are able to reference it and set its next value to the deleted contact's next value.
+
 }
