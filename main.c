@@ -92,15 +92,30 @@ int removeContact(contact *headPtr){
         printf("No Contacts to remove\n");
         return 1;
     } 
-    
+    char userDirection[3];
+    char dummy[100];
     contact *indexPtr = headPtr;
-    while(indexPtr != NULL){
+
+    while(strcmp(userDirection, "q") != 0){
         printf("%s", indexPtr->name);
-        indexPtr = indexPtr->next;
+        fgets(userDirection, sizeof(userDirection), stdin);
+        userDirection[strcspn(userDirection, "\n")] = '\0';
+        if(strcmp(userDirection, "s") == 0){
+            printf("Next");
+        } else if(strcmp(userDirection, "w") == 0){
+            printf("Prev");
+        } else if(strcmp(userDirection, "q") == 0){ // Maybe remove this if I find there is some code we always want executed at the end of the loop
+            return 0;
+        } else if(strcmp(userDirection, "rm") == 0){
+            printf("Remove");
+            fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
+        } else {
+            printf("Not a valid Comand, %s", userDirection);
+        }
     }
 
-
-    return 0;
+    return 1;
+    
     
     // When user clicks on remove we should start circling through the contacts
     // If user hits down arrow, then we should go to next, up arrow goes back
