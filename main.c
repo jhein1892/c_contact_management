@@ -95,19 +95,32 @@ int removeContact(contact *headPtr){
     char userDirection[3];
     char dummy[100];
     contact *indexPtr = headPtr;
+    contact *prevPtr = NULL;
 
     while(strcmp(userDirection, "q") != 0){
         printf("%s", indexPtr->name);
         fgets(userDirection, sizeof(userDirection), stdin);
         userDirection[strcspn(userDirection, "\n")] = '\0';
-        if(strcmp(userDirection, "s") == 0){
-            printf("Next");
-        } else if(strcmp(userDirection, "w") == 0){
-            printf("Prev");
+        if(strcmp(userDirection, "n") == 0){
+            prevPtr = indexPtr;
+            if(indexPtr->next != NULL){
+                indexPtr = indexPtr->next;
+            } else {
+                indexPtr = headPtr;
+            }
         } else if(strcmp(userDirection, "q") == 0){ // Maybe remove this if I find there is some code we always want executed at the end of the loop
             return 0;
         } else if(strcmp(userDirection, "rm") == 0){
-            printf("Remove");
+            if(indexPtr->isHead == 0){
+                contact *tempPtr = indexPtr->next; // Set up temp PTR
+                indexPtr = tempPtr;
+                indexPtr->isHead = true; // Set is Head to True on next Node
+                free(headPtr); // Free this space
+                headPtr = indexPtr; // Set headPtr to new head.
+            } else {
+                printf("%d", indexPtr->isHead);
+                // set 
+            }
             fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
         } else {
             printf("Not a valid Comand, %s", userDirection);
@@ -119,8 +132,6 @@ int removeContact(contact *headPtr){
     
     // When user clicks on remove we should start circling through the contacts
     // If user hits down arrow, then we should go to next, up arrow goes back
-    // If user hits next and we have next == NULL, then we go back to head.
-    // If user hits 'q' then we quit and go back to main
     // if user types 'rm' then we delete that contact
         // We need to store the prevPtr so that when we delete, we are able to reference it and set its next value to the deleted contact's next value.
 
