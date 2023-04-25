@@ -69,6 +69,7 @@ void add(contact *prevPtr, contact **headPtr){
         }
         if(*headPtr == NULL){ // First Contact
             *headPtr = currptr;
+            currptr->isHead = true;
         } else {
             currptr->isHead = false;
         }
@@ -111,15 +112,16 @@ int removeContact(contact *headPtr){
         } else if(strcmp(userDirection, "q") == 0){ // Maybe remove this if I find there is some code we always want executed at the end of the loop
             return 0;
         } else if(strcmp(userDirection, "rm") == 0){
-            if(indexPtr->isHead == 0){
+            if(indexPtr->isHead == 1){
                 contact *tempPtr = indexPtr->next; // Set up temp PTR
                 indexPtr = tempPtr;
                 indexPtr->isHead = true; // Set is Head to True on next Node
                 free(headPtr); // Free this space
-                headPtr = indexPtr; // Set headPtr to new head.
+                *headPtr = *indexPtr; // Set headPtr to new head.
             } else {
-                printf("%d", indexPtr->isHead);
-                // set 
+                prevPtr->next = indexPtr->next; // Make previous pointer point to next Pointer
+                free(indexPtr);
+                indexPtr = indexPtr->next; 
             }
             fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
         } else {
