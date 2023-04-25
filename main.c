@@ -1,4 +1,4 @@
-// Build a simple text-based contact management system that allows users to add, edit, delete, and search for contacts using a linked list
+// edit and search for contacts using a linked list
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,20 +14,28 @@ typedef struct node {
 
 void add(contact *prevPtr, contact **headPtr);
 int removeContact(contact *headPtr);
+int editContact(contact *headPtr);
+int searchContacts(contact *headPtr);
 
 int main(void){
     contact* prevPtr = NULL; // Start with a first pointer.
     contact* headPtr = NULL; // The Start of our list
     char userDirection[3];
     while(strcmp(userDirection, "q") != 0){
-        printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\n");
+        printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\t'e': edit Contact");
         fgets(userDirection, sizeof(userDirection), stdin);
         userDirection[strcspn(userDirection, "\n")] = '\0';
         if(strcmp(userDirection, "a") == 0){
             add(prevPtr, &headPtr);    
         } 
-        if(strcmp(userDirection, "r") == 0){
+        else if(strcmp(userDirection, "r") == 0){
             removeContact(headPtr);
+        }
+        else if(strcmp(userDirection, "e") == 0){
+            editContact(headPtr);
+        }
+        else if(strcmp(userDirection, "s") == 0){
+            searchContacts(headPtr);
         }
     }
 
@@ -128,13 +136,15 @@ int removeContact(contact *headPtr){
             printf("Not a valid Comand, %s", userDirection);
         }
     }
-
     return 1;
-    
-    
-    // When user clicks on remove we should start circling through the contacts
-    // If user hits down arrow, then we should go to next, up arrow goes back
-    // if user types 'rm' then we delete that contact
-        // We need to store the prevPtr so that when we delete, we are able to reference it and set its next value to the deleted contact's next value.
+}
 
+int editContact(contact *headPtr){
+    printf("Edit Contact");
+    return 0;
+}
+
+int searchContacts(contact *headPtr){
+    printf("Search Contact");
+    return 0; 
 }
