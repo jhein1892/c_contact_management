@@ -13,6 +13,7 @@ typedef struct node {
 } contact;
 
 void add(contact *prevPtr, contact **headPtr);
+contact* scrollContacts(contact **headPtr, contact **prevPtr, char trigger[3]); 
 int removeContact(contact *headPtr);
 int editContact(contact *headPtr);
 int searchContacts(contact *headPtr);
@@ -49,7 +50,40 @@ int main(void){
     return 0; 
 }
 
+contact* scrollContacts(contact **headPtr, contact **prevPtr, char trigger[3]){
+    char userDirection[3];
+    char dummy[100];
 
+    contact *indexPtr = *headPtr;
+
+    while(strcmp(userDirection, trigger) != 0){ // Cycle through the contacts until we hit our trigger
+        printf("%s", indexPtr->name);
+        fgets(userDirection, sizeof(userDirection), stdin);
+        userDirection[strcspn(userDirection, "\n")] = '\0';
+
+        if(strcmp(userDirection, "n") == 0){
+            *prevPtr = indexPtr;
+            if(indexPtr->next != NULL){
+                indexPtr = indexPtr->next;
+            } else {
+                indexPtr = *headPtr;
+            }
+        }
+        else if (strcmp(userDirection, trigger) == 0){
+            return indexPtr;
+        } 
+        else if (strcmp(userDirection, "q") == 0) {
+            return 0;
+        } 
+        else {
+            printf("Command not Recognized");
+        }
+    }
+
+    return NULL;
+}
+
+// Implemented
 void add(contact *prevPtr, contact **headPtr){
 
     bool addContact = true; 
@@ -96,6 +130,7 @@ void add(contact *prevPtr, contact **headPtr){
     return;
 }
 
+// Implemented
 int removeContact(contact *headPtr){
     if (headPtr == NULL){
         printf("No Contacts to remove\n");
@@ -103,46 +138,32 @@ int removeContact(contact *headPtr){
     } 
     char userDirection[3];
     char dummy[100];
-    contact *indexPtr = headPtr;
     contact *prevPtr = NULL;
+    contact *removePtr = scrollContacts(&headPtr, &prevPtr, "rm");
 
-    while(strcmp(userDirection, "q") != 0){
-        printf("%s", indexPtr->name);
-        fgets(userDirection, sizeof(userDirection), stdin);
-        userDirection[strcspn(userDirection, "\n")] = '\0';
-        if(strcmp(userDirection, "n") == 0){
-            prevPtr = indexPtr;
-            if(indexPtr->next != NULL){
-                indexPtr = indexPtr->next;
-            } else {
-                indexPtr = headPtr;
-            }
-        } else if(strcmp(userDirection, "q") == 0){ // Maybe remove this if I find there is some code we always want executed at the end of the loop
-            return 0;
-        } else if(strcmp(userDirection, "rm") == 0){
-            if(indexPtr->isHead == 1){
-                contact *tempPtr = indexPtr->next; // Set up temp PTR
-                indexPtr = tempPtr;
-                indexPtr->isHead = true; // Set is Head to True on next Node
-                free(headPtr); // Free this space
-                *headPtr = *indexPtr; // Set headPtr to new head.
-            } else {
-                prevPtr->next = indexPtr->next; // Make previous pointer point to next Pointer
-                free(indexPtr);
-                indexPtr = indexPtr->next; 
-            }
-            fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
+    if(removePtr == 0){
+        return 0;
+    } else {
+        if(removePtr->isHead == 1){
+            removePtr = removePtr->next;
+            removePtr->isHead = true;
+            *headPtr = *removePtr;
         } else {
-            printf("Not a valid Comand, %s", userDirection);
+            prevPtr->next = removePtr->next;
+            free(removePtr);
         }
+        fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
     }
     return 1;
 }
 
+
 int editContact(contact *headPtr){
     printf("Edit Contact");
     return 0;
+    //
 }
+
 
 int searchContacts(contact *headPtr){
     printf("Search Contact");
