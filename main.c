@@ -157,7 +157,7 @@ int removeContact(contact *headPtr){
     return 0;
 }
 
-
+// Implemented
 int editContact(contact *headPtr){
     if(headPtr == NULL){
         printf("No Contacts to Edit\n");
@@ -198,5 +198,10 @@ int editContact(contact *headPtr){
 
 int searchContacts(contact *headPtr){
     printf("Search Contact");
+    // Ask user how they want to search
+
+    // While we don't have the relevant information go through list
+    // If we get to point where we don't have the information, and our ->next is NULL, then we don't have info.
+    // Return full contact details
     return 0; 
 }
