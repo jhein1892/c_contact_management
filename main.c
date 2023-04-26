@@ -23,7 +23,7 @@ int main(void){
     contact* headPtr = NULL; // The Start of our list
     char userDirection[3];
     while(strcmp(userDirection, "q") != 0){
-        printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\t'e': edit Contact");
+        printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\t'e': edit Contact: ");
         fgets(userDirection, sizeof(userDirection), stdin);
         userDirection[strcspn(userDirection, "\n")] = '\0';
         if(strcmp(userDirection, "a") == 0){
@@ -154,12 +154,43 @@ int removeContact(contact *headPtr){
         }
         fgets(dummy, sizeof(dummy), stdin);    // Clears \n from stream so it's not 
     }
-    return 1;
+    return 0;
 }
 
 
 int editContact(contact *headPtr){
-    printf("Edit Contact");
+    if(headPtr == NULL){
+        printf("No Contacts to Edit\n");
+        return 1;
+    }
+    char userDirection[3];
+    contact *prevPtr = NULL;
+    contact *editPtr = scrollContacts(&headPtr, &prevPtr, "e");
+    if(editPtr == 0){
+        return 0;
+    } else {
+        char editValue[10];
+        while(strcmp(editValue, "q") != 0){
+            printf("What would you like to edit for this user: ");
+            fgets(editValue, sizeof(editValue), stdin);
+            editValue[strcspn(editValue, "\n")] = '\0';
+            if(strcmp(editValue, "name") == 0){
+                printf("Current Name: %s\nWhat would you like to rename to: ", editPtr->name);
+                fgets(editPtr->name, sizeof(editPtr->name), stdin);
+            }
+            else if (strcmp(editValue, "phone") == 0){
+                printf("Current Phone: %s\nWhat would you like Phone to be: ", editPtr->phone);
+                fgets(editPtr->phone, sizeof(editPtr->phone), stdin);
+            }
+            else if(strcmp(editValue, "email") == 0){
+                printf("Current Email: %s\nWhat would you like to Email to be: ", editPtr->email);
+                fgets(editPtr->email, sizeof(editPtr->email), stdin);
+            }
+            else {
+                printf("unknown :(");
+            }
+        }
+    }
     return 0;
     //
 }
