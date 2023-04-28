@@ -38,6 +38,9 @@ int main(void){
         else if(strcmp(userDirection, "s") == 0){
             searchContacts(headPtr);
         }
+        else {
+            printf("Unknown Command :(");
+        }
     }
 
     contact* indexPtr = headPtr;
@@ -195,7 +198,7 @@ int editContact(contact *headPtr){
                 editPtr->email[strcspn(editPtr->email, "\n")] = '\0';
             }
             else {
-                printf("unknown :(");
+                printf("Unknown Command :(");
             }
         }
     }
