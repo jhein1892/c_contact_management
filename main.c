@@ -57,7 +57,7 @@ contact* scrollContacts(contact **headPtr, contact **prevPtr, char trigger[3]){
     contact *indexPtr = *headPtr;
 
     while(strcmp(userDirection, trigger) != 0){ // Cycle through the contacts until we hit our trigger
-        printf("%s", indexPtr->name);
+        printf("\tName: %s\nDirection: ", indexPtr->name);
         fgets(userDirection, sizeof(userDirection), stdin);
         userDirection[strcspn(userDirection, "\n")] = '\0';
 
@@ -142,6 +142,7 @@ int removeContact(contact *headPtr){
     char userDirection[3];
     char dummy[100];
     contact *prevPtr = NULL;
+    printf("Directions: 'n' -> Next, 'rm' -> Remove, 'q' -> Main Menu\n");
     contact *removePtr = scrollContacts(&headPtr, &prevPtr, "rm");
 
     if(removePtr == 0){
@@ -181,14 +182,17 @@ int editContact(contact *headPtr){
             if(strcmp(editValue, "name") == 0){
                 printf("Current Name: %s\nWhat would you like to rename to: ", editPtr->name);
                 fgets(editPtr->name, sizeof(editPtr->name), stdin);
+                editPtr->name[strcspn(editPtr->name, "\n")] = '\0';
             }
             else if (strcmp(editValue, "phone") == 0){
                 printf("Current Phone: %s\nWhat would you like Phone to be: ", editPtr->phone);
                 fgets(editPtr->phone, sizeof(editPtr->phone), stdin);
+                editPtr->phone[strcspn(editPtr->phone, "\n")] = '\0';
             }
             else if(strcmp(editValue, "email") == 0){
                 printf("Current Email: %s\nWhat would you like to Email to be: ", editPtr->email);
                 fgets(editPtr->email, sizeof(editPtr->email), stdin);
+                editPtr->email[strcspn(editPtr->email, "\n")] = '\0';
             }
             else {
                 printf("unknown :(");
@@ -196,10 +200,9 @@ int editContact(contact *headPtr){
         }
     }
     return 0;
-    //
 }
 
-
+// Implemented
 int searchContacts(contact *headPtr){
     char name[30];
     printf("Please enter the name of the Contact you would like to see: ");
