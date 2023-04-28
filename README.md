@@ -30,8 +30,5 @@ Each function is implemented using standard C library functions and basic string
 ## Limitations
 The program has several limitations that should be addressed in a more robust contact management system:
 
-The program does not provide any validation of input data
 The program does not persist the contact list between runs
 The program does not provide any sorting or filtering of the contact list
-
-Despite these limitations, the program serves as a simple example of how linked lists can be used to manage data in a program.
