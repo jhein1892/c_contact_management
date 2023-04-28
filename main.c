@@ -23,7 +23,7 @@ int main(void){
     contact* headPtr = NULL; // The Start of our list
     char userDirection[3];
     while(strcmp(userDirection, "q") != 0){
-        printf("What would you like to do:\n'a': add Contact\t'r': remove Contact\t'e': edit Contact: ");
+        printf("\nWhat would you like to do:\n'a': add Contact\n'r': remove Contact\n'e': edit Contact\n's': Search Contacts: ");
         fgets(userDirection, sizeof(userDirection), stdin);
         userDirection[strcspn(userDirection, "\n")] = '\0';
         if(strcmp(userDirection, "a") == 0){
@@ -97,12 +97,15 @@ void add(contact *prevPtr, contact **headPtr){
 
         printf("Please Enter a Name: ");
         fgets(currptr->name, sizeof(currptr->name), stdin);
+        currptr->name[strcspn(currptr->name, "\n")] = '\0';
 
         printf("Please Enter a Phone: ");
         fgets(currptr->phone, sizeof(currptr->phone), stdin);
+        currptr->phone[strcspn(currptr->phone, "\n")] = '\0';
 
         printf("Please Enter a Email: ");
         fgets(currptr->email, sizeof(currptr->email), stdin);
+        currptr->email[strcspn(currptr->email, "\n")] = '\0';
 
         currptr->next = NULL;
 
@@ -165,13 +168,14 @@ int editContact(contact *headPtr){
     }
     char userDirection[3];
     contact *prevPtr = NULL;
+    printf("Directions: 'n' -> Next, 'e' -> Edit, 'q' -> Main Menu\n");
     contact *editPtr = scrollContacts(&headPtr, &prevPtr, "e");
     if(editPtr == 0){
         return 0;
     } else {
         char editValue[10];
         while(strcmp(editValue, "q") != 0){
-            printf("What would you like to edit for this user: ");
+            printf("What would you like to edit for this user? (Options: 'name', 'phone', 'email'): ");
             fgets(editValue, sizeof(editValue), stdin);
             editValue[strcspn(editValue, "\n")] = '\0';
             if(strcmp(editValue, "name") == 0){
@@ -203,9 +207,8 @@ int searchContacts(contact *headPtr){
     name[strcspn(name, "\n")] = '\0';
 
     while(headPtr != NULL){
-        printf("%s, %s, %d\n", headPtr->name, name, strcmp(headPtr->name, name));
         if(strcmp(name, headPtr->name) == 0){
-            printf("Here is the information for this contact:\nName: %s\nPhone: %s\nEmail: %s", headPtr->name, headPtr->phone, headPtr->email);
+            printf("Here is the information for this contact:\nName: %s\nPhone: %s\nEmail: %s\n", headPtr->name, headPtr->phone, headPtr->email);
             return 0;
         }
         else {
