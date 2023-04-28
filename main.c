@@ -197,11 +197,22 @@ int editContact(contact *headPtr){
 
 
 int searchContacts(contact *headPtr){
-    printf("Search Contact");
-    // Ask user how they want to search
+    char name[30];
+    printf("Please enter the name of the Contact you would like to see: ");
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0';
 
-    // While we don't have the relevant information go through list
-    // If we get to point where we don't have the information, and our ->next is NULL, then we don't have info.
-    // Return full contact details
+    while(headPtr != NULL){
+        printf("%s, %s, %d\n", headPtr->name, name, strcmp(headPtr->name, name));
+        if(strcmp(name, headPtr->name) == 0){
+            printf("Here is the information for this contact:\nName: %s\nPhone: %s\nEmail: %s", headPtr->name, headPtr->phone, headPtr->email);
+            return 0;
+        }
+        else {
+            headPtr = headPtr->next;
+        }
+    }
+    printf("There are no Contacts with that name\n");
+
     return 0; 
 }
